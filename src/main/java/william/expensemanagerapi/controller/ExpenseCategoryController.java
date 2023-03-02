@@ -3,6 +3,7 @@ package william.expensemanagerapi.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -14,10 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
+import william.expensemanagerapi.service.ExpenseCategoryService;
 
 @RestController
 @RequestMapping("/expense-category")
 public class ExpenseCategoryController {
+  @Autowired
+  private ExpenseCategoryService expenseCategoryService;
+
   @PostMapping
   public ResponseEntity<ExpenseCategory> create(
     @Valid @RequestBody AddExpenseCategoryModel params,
@@ -33,6 +38,6 @@ public class ExpenseCategoryController {
       return ResponseEntity.badRequest().build();
     }
 
-    return null;
+    return ResponseEntity.ok(expenseCategoryService.add(params));
   }
 }
