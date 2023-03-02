@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
+import william.expensemanagerapi.domain.model.EditExpenseCategoryModel;
 import william.expensemanagerapi.domain.usecases.expensecategory.AddExpenseCategory;
+import william.expensemanagerapi.domain.usecases.expensecategory.EditExpenseCategory;
 import william.expensemanagerapi.domain.usecases.expensecategory.LoadExpenseCategories;
 import william.expensemanagerapi.domain.usecases.expensecategory.LoadExpenseCategoryById;
 import william.expensemanagerapi.exceptions.ObjectNotFoundException;
@@ -17,7 +19,8 @@ import william.expensemanagerapi.repository.ExpenseCategoryRepository;
 public class ExpenseCategoryService implements 
   AddExpenseCategory,
   LoadExpenseCategories,
-  LoadExpenseCategoryById {
+  LoadExpenseCategoryById,
+  EditExpenseCategory {
   @Autowired
   private ExpenseCategoryRepository expenseCategoryRepository;
 
@@ -39,5 +42,13 @@ public class ExpenseCategoryService implements
       .orElseThrow(
         () -> new ObjectNotFoundException("Expense category not found")
       );
+  }
+
+  @Override
+  public ExpenseCategory edit(Long id, EditExpenseCategoryModel params) {
+    ExpenseCategory expenseCategory = get(id);
+    expenseCategory.setName(params.getName());
+    expenseCategory.setDescription(params.getDescription());
+    return expenseCategoryRepository.save(expenseCategory);
   }
 }
