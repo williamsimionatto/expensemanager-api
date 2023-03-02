@@ -1,5 +1,7 @@
 package william.expensemanagerapi.domain.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddExpenseCategoryModel {
-  public Long id;
+  @NotBlank(message = "Name is required")
   public String name;
+  @NotEmpty(message = "Description is required")
   public String description;
 }
