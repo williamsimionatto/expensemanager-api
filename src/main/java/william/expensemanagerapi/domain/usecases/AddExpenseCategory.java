@@ -1,7 +1,8 @@
 package william.expensemanagerapi.domain.usecases;
 
+import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
 
 public interface AddExpenseCategory {
-  public void add(AddExpenseCategoryModel params);
+  public ExpenseCategory add(AddExpenseCategoryModel params);
 }

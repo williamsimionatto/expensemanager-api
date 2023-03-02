@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
 
 @Getter
 @Setter
@@ -31,5 +32,10 @@ public class ExpenseCategory implements Serializable {
   @NonNull
   @Column(name = "description")
   private String description;
+
+  public ExpenseCategory(AddExpenseCategoryModel params) {
+    this.name = params.getName();
+    this.description = params.getDescription();
+  }
 }
 
