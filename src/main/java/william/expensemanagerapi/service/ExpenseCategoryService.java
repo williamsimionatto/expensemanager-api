@@ -9,12 +9,15 @@ import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
 import william.expensemanagerapi.domain.usecases.expensecategory.AddExpenseCategory;
 import william.expensemanagerapi.domain.usecases.expensecategory.LoadExpenseCategories;
+import william.expensemanagerapi.domain.usecases.expensecategory.LoadExpenseCategoryById;
+import william.expensemanagerapi.exceptions.ObjectNotFoundException;
 import william.expensemanagerapi.repository.ExpenseCategoryRepository;
 
 @Service
 public class ExpenseCategoryService implements 
   AddExpenseCategory,
-  LoadExpenseCategories {
+  LoadExpenseCategories,
+  LoadExpenseCategoryById {
   @Autowired
   private ExpenseCategoryRepository expenseCategoryRepository;
 
@@ -27,5 +30,14 @@ public class ExpenseCategoryService implements
   @Override
   public List<ExpenseCategory> load() {
     return expenseCategoryRepository.findAll();
+  }
+
+  @Override
+  public ExpenseCategory get(Long id) {
+    return expenseCategoryRepository
+      .findById(id)
+      .orElseThrow(
+        () -> new ObjectNotFoundException("Expense category not found")
+      );
   }
 }
