@@ -1,4 +1,4 @@
-package william.expensemanagerapi.domain.usecases;
+package william.expensemanagerapi.domain.usecases.expensecategory;
 
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;

@@ -1,4 +1,4 @@
-package william.expensemanagerapi.domain.usecases;
+package william.expensemanagerapi.domain.usecases.expensecategory;
 
 import java.util.List;
 

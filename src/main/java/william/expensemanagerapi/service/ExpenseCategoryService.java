@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
-import william.expensemanagerapi.domain.usecases.AddExpenseCategory;
-import william.expensemanagerapi.domain.usecases.LoadExpenseCategories;
+import william.expensemanagerapi.domain.usecases.expensecategory.AddExpenseCategory;
+import william.expensemanagerapi.domain.usecases.expensecategory.LoadExpenseCategories;
 import william.expensemanagerapi.repository.ExpenseCategoryRepository;
 
 @Service
