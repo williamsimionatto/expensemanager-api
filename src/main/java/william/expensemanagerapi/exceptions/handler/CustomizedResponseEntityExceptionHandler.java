@@ -5,7 +5,6 @@ import java.util.Date;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
@@ -13,7 +12,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import william.expensemanagerapi.exceptions.ExceptionReponse;
 
-@ControllerAdvice
 @RestController
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(Exception.class)
@@ -32,7 +30,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
   @ExceptionHandler(ObjectNotFoundException.class)
   public final ResponseEntity<ExceptionReponse> handleNotFoundException(
-    Exception ex,
+    ObjectNotFoundException ex,
     WebRequest request
   ) {
     ExceptionReponse exceptionResponse = new ExceptionReponse(
