@@ -3,6 +3,8 @@ package william.expensemanagerapi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
@@ -33,6 +35,11 @@ public class ExpenseCategoryService implements
   @Override
   public List<ExpenseCategory> load() {
     return expenseCategoryRepository.findAll();
+  }
+
+  @Override
+  public Page<ExpenseCategory> load(Pageable pageable) {
+    return expenseCategoryRepository.findAll(pageable);
   }
 
   @Override

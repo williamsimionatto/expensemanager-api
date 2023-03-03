@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -46,8 +50,13 @@ public class ExpenseCategoryController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ExpenseCategory>> load() {
-    return ResponseEntity.ok(expenseCategoryService.load());
+  public ResponseEntity<Page<ExpenseCategory>> load(
+    @RequestParam(defaultValue = "0") int page, 
+    @RequestParam(defaultValue = "10") int size
+  ) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page<ExpenseCategory> expenseCategories = expenseCategoryService.load(pageable);
+    return ResponseEntity.ok(expenseCategories);
   }
 
   @GetMapping("/{id}")
