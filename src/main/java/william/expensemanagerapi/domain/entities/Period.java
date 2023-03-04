@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import william.expensemanagerapi.domain.model.AddPeriodModel;
 
 @Getter
 @Setter
@@ -40,4 +41,11 @@ public class Period implements Serializable {
   @NonNull
   @Column(name = "budget")
   private Double budget;
+
+  public Period(AddPeriodModel params) {
+    this.name = params.getName();
+    this.startDate = params.getStartDate();
+    this.endDate = params.getEndDate();
+    this.budget = params.getBudget();
+  }
 }
