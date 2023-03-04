@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +62,31 @@ public class PeriodService implements
     }
 
     return this.get(period.getId());
+  }
+
+  public Page<PeriodReport> getAll(Pageable pageable) {
+    Page<Period> periods = periodRepository.findAll(pageable);
+
+    Page<PeriodReport> periodReports = periods.map(period -> {
+      Double totalReservedBudget = periodCategoryRepository.getTotalReservedBudget(period.getId());
+      Double remainingBudget = period.getBudget() - totalReservedBudget;
+      Double totalUsedBudget = expenseRepository.totalBugetUsed(period.getId());
+      Double remainingUsedBudget = totalReservedBudget - totalUsedBudget;
+
+      return new PeriodReport(
+        period.getId(),
+        period.getName(),
+        period.getStartDate(),
+        period.getEndDate(),
+        period.getBudget(),
+        totalReservedBudget,
+        remainingBudget,
+        totalUsedBudget,
+        remainingUsedBudget
+      );
+    });
+
+    return periodReports;
   }
 
   public List<PeriodReport> getAll() {

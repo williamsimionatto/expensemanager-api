@@ -19,7 +19,7 @@ public interface PeriodCategoryRepository extends JpaRepository<PeriodCategory, 
   );
 
   @Query(
-    value = "SELECT SUM(budget) FROM period_category WHERE period_id = :periodId",
+    value = "SELECT COALESCE(SUM(budget), 0) FROM period_category WHERE period_id = :periodId",
     nativeQuery = true
   )
   public Double getTotalReservedBudget(@Param("periodId") Long periodId);
