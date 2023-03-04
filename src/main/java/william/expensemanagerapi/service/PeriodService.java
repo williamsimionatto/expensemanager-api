@@ -43,6 +43,10 @@ public class PeriodService implements
     Period period = new Period(params);
     period = periodRepository.save(period);
 
+    if (!this.hasBudgetLimit(period.getBudget(), params.getCategories())) {
+      throw new IllegalArgumentException("Budget limit exceeded");
+    }
+
     for (AddPeriodCategoryModel category : params.getCategories()) {
       ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
       PeriodCategory periodCategory = new PeriodCategory(period.getId(), expenseCategory, category.getBudget());
@@ -68,8 +72,11 @@ public class PeriodService implements
     period.setBudget(params.getBudget());
     period = periodRepository.save(period);
 
+    if (!this.hasBudgetLimit(period.getBudget(), params.getCategories())) {
+      throw new IllegalArgumentException("Budget limit exceeded");
+    }
+
     for (AddPeriodCategoryModel category : params.getCategories()) {
-      // If the category is not in the period, add it, otherwise update the budget
       PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(period.getId(), category.getCategoryId());
       if (periodCategory == null) {
         ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
@@ -88,5 +95,10 @@ public class PeriodService implements
   public boolean hasPeriodInSameDates(Date startDate, Date endDate) {
     List<Period> periods = periodRepository.findAllByStartDateBetween(startDate, endDate);
     return periods.size() > 0;
+  }
+
+  private boolean hasBudgetLimit(Double budget, List<AddPeriodCategoryModel> categories) {
+    Double totalBudget = categories.stream().mapToDouble(AddPeriodCategoryModel::getBudget).sum();
+    return totalBudget <= budget;
   }
 }
