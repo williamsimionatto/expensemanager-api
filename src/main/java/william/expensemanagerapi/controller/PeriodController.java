@@ -2,6 +2,8 @@ package william.expensemanagerapi.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +25,10 @@ public class PeriodController {
     @Valid @RequestBody AddPeriodModel params
   ) {
     return ResponseEntity.ok(periodService.add(params));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Period> get(@PathVariable Long id) {
+    return ResponseEntity.ok(periodService.get(id));
   }
 }

@@ -14,9 +14,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,12 +49,7 @@ public class Period implements Serializable {
   @Column(name = "budget")
   private Double budget;
 
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinTable(
-    name = "period_category", 
-    joinColumns = @JoinColumn(name = "period_id"), 
-    inverseJoinColumns = @JoinColumn(name = "category_id")
-  )
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "periodId")
   private List<PeriodCategory> periodCategories = new ArrayList<PeriodCategory>();
 
   public Period(AddPeriodModel params) {

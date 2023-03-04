@@ -1,6 +1,7 @@
 package william.expensemanagerapi.domain.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -31,4 +32,7 @@ public class AddPeriodModel {
   @Min(value = 1, message = "Budget must be greater than or equal to 1")
   @NotNull(message = "Budget is required")
   private Double budget;
+
+  @NotNull(message = "Categories are required")
+  private List<AddPeriodCategoryModel> categories;
 }
