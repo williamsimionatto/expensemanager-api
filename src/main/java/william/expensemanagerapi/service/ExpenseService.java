@@ -34,10 +34,10 @@ public class ExpenseService implements
     Double totalBugetUsedInPeriod = this.totalBugetUsed(period.getId());
     Double totalBugetUsedInCategory = this.totalBugetUsed(period.getId(), periodCategory.getCategory().getId());
 
-    if (totalBugetUsedInCategory + expense.getAmount() > periodCategory.getBudget()) {
-      throw new IllegalArgumentException("Budget Category limit exceeded");
-    } else if (totalBugetUsedInPeriod + expense.getAmount() > period.getBudget()) {
+    if (totalBugetUsedInPeriod + expense.getAmount() > period.getBudget()) {
       throw new IllegalArgumentException("Budget Period limit exceeded");
+    } else if (totalBugetUsedInCategory + expense.getAmount() > periodCategory.getBudget()) {
+      throw new IllegalArgumentException("Budget Category limit exceeded");
     }
 
     return expenseRepository.save(expense);
