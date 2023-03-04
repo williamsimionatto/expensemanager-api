@@ -2,6 +2,9 @@ package william.expensemanagerapi.domain.entities;
 
 import java.util.Date;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import io.micrometer.common.lang.NonNull;
@@ -32,11 +35,13 @@ public class Expense {
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "category_id", referencedColumnName = "id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @JsonBackReference
   private ExpenseCategory expenseCategory;
   
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "period_id", referencedColumnName = "id")
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @JsonBackReference
   private Period period;
 

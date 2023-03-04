@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.entities.Period;
@@ -118,12 +119,14 @@ public class PeriodService implements
     return period;
   }
 
+  @Transactional
   public void deleteCategory(Long periodId, Long categoryId) {
     PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(periodId, categoryId);
     if (periodCategory == null) {
       throw new IllegalArgumentException("Period category not found");
     }
 
+    expenseRepository.deleteByPeriodIdAndExpenseCategoryId(periodId, categoryId);
     periodCategoryRepository.deleteById(periodCategory.getId());
   }
 

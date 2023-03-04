@@ -23,4 +23,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Param("periodId") Long periodId,
     @Param("categoryId") Long categoryId
   );
+
+  public void deleteByPeriodIdAndExpenseCategoryId(Long periodId, Long categoryId);
 }
