@@ -14,7 +14,7 @@ import william.expensemanagerapi.domain.model.AddPeriodModel;
 import william.expensemanagerapi.domain.model.PeriodReport;
 import william.expensemanagerapi.domain.usecases.period.AddPeriod;
 import william.expensemanagerapi.domain.usecases.period.HasPeriodInSameDates;
-import william.expensemanagerapi.repository.ExpenseCategoryRepository;
+import william.expensemanagerapi.repository.ExpenseRepository;
 import william.expensemanagerapi.repository.PeriodCategoryRepository;
 import william.expensemanagerapi.repository.PeriodRepository;
 
@@ -32,7 +32,7 @@ public class PeriodService implements
   private ExpenseCategoryService expenseCategoryService;
 
   @Autowired
-  private ExpenseCategoryRepository expenseCategoryRepository;
+  private ExpenseRepository expenseRepository;
 
   @Override
   public Period add(AddPeriodModel params) {
@@ -67,7 +67,7 @@ public class PeriodService implements
     List<PeriodReport> periodReports = periods.stream().map(period -> {
       Double totalReservedBudget = periodCategoryRepository.gettotalReservedBudget(period.getId());
       Double remainingBudget = period.getBudget() - totalReservedBudget;
-      Double totalUsedBudget = expenseCategoryRepository.getTotalUsedBudget(period.getId());
+      Double totalUsedBudget = expenseRepository.getTotalUsedBudget(period.getId());
       Double remainingUsedBudget = totalReservedBudget - totalUsedBudget;
 
       return new PeriodReport(
