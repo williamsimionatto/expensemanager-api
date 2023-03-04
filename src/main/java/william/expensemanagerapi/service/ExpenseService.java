@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import william.expensemanagerapi.domain.entities.Expense;
-import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.entities.Period;
+import william.expensemanagerapi.domain.entities.PeriodCategory;
 import william.expensemanagerapi.domain.model.AddExpenseModel;
 import william.expensemanagerapi.domain.usecases.expense.AddExpense;
 import william.expensemanagerapi.domain.usecases.expense.TotalBugetUsed;
@@ -20,17 +20,26 @@ public class ExpenseService implements
   private ExpenseRepository expenseRepository;
 
   @Autowired
-  private ExpenseCategoryService expenseCategoryService;
+  private PeriodService periodService;
 
   @Autowired
-  private PeriodService periodService;
+  private PeriodCategoryService periodCategoryService;
 
   @Override
   public Expense add(AddExpenseModel params) {
-    ExpenseCategory expenseCategory = expenseCategoryService.get(params.getCategoryId());
+    PeriodCategory periodCategory = periodCategoryService.get(params.getPeriodId(), params.getCategoryId());
     Period period = periodService.get(params.getPeriodId());
 
-    Expense expense = new Expense(params, period, expenseCategory);
+    Expense expense = new Expense(params, period, periodCategory.getCategory());
+    Double totalBugetUsedInPeriod = this.totalBugetUsed(period.getId());
+    Double totalBugetUsedInCategory = this.totalBugetUsed(period.getId(), periodCategory.getCategory().getId());
+
+    if (totalBugetUsedInCategory + expense.getAmount() > periodCategory.getBudget()) {
+      throw new IllegalArgumentException("Budget Category limit exceeded");
+    } else if (totalBugetUsedInPeriod + expense.getAmount() > period.getBudget()) {
+      throw new IllegalArgumentException("Budget Period limit exceeded");
+    }
+
     return expenseRepository.save(expense);
   }
 
