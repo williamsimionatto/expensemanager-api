@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,16 +29,17 @@ public class PeriodCategory implements Serializable {
   @Column(name = "period_id")
   private Long periodId;
 
-  @Column(name = "expense_category_id")
-  private Long categoryId;
+  @ManyToOne()
+  @JoinColumn(name="expense_category_id", nullable=false)
+  private ExpenseCategory expenseCategory;
 
   @NonNull
   @Column(name = "budget")
   private Double budget;
 
-  public PeriodCategory(Long periodId, Long categoryId, Double budget) {
+  public PeriodCategory(Long periodId, ExpenseCategory expenseCategory, Double budget) {
     this.periodId = periodId;
-    this.categoryId = categoryId;
+    this.expenseCategory = expenseCategory;
     this.budget = budget;
   }
 }

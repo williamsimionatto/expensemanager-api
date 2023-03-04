@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.entities.Period;
 import william.expensemanagerapi.domain.entities.PeriodCategory;
 import william.expensemanagerapi.domain.model.AddPeriodCategoryModel;
@@ -25,6 +26,9 @@ public class PeriodService implements
   @Autowired
   private PeriodCategoryRepository periodCategoryRepository;
 
+  @Autowired 
+  private ExpenseCategoryService expenseCategoryService;
+
   @Override
   public Period add(AddPeriodModel params) {
     if (params.getStartDate().after(params.getEndDate())) {
@@ -40,11 +44,12 @@ public class PeriodService implements
     period = periodRepository.save(period);
 
     for (AddPeriodCategoryModel category : params.getCategories()) {
-      PeriodCategory periodCategory = new PeriodCategory(period.getId(), category.getCategoryId(), category.getBudget());
+      ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
+      PeriodCategory periodCategory = new PeriodCategory(period.getId(), expenseCategory, category.getBudget());
       periodCategoryRepository.save(periodCategory);
     }
 
-    return get(period.getId());
+    return this.get(period.getId());
   }
 
   public Period get(Long id) {
