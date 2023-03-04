@@ -19,4 +19,6 @@ public class PeriodReport {
   private Double budget;
   private Double reservedBudget;
   private Double remainingBudget;
+  private Double usedBudget;
+  private Double remainingUsedBudget;
 }
