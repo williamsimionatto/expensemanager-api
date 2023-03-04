@@ -1,6 +1,7 @@
 package william.expensemanagerapi.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,10 @@ public class PeriodService implements
   @Override
   public Period add(AddPeriodModel params) {
     boolean hasPeriodInSameDates = this.hasPeriodInSameDates(params.getStartDate(), params.getEndDate());
-    System.out.println(hasPeriodInSameDates);
+    if (params.getStartDate().after(params.getEndDate())) {
+      throw new IllegalArgumentException("Start date cannot be after end date");
+    }
+
     if (hasPeriodInSameDates) {
       throw new IllegalArgumentException("There is already a period in the same dates, please choose another dates");
     }
@@ -32,6 +36,7 @@ public class PeriodService implements
 
   @Override
   public boolean hasPeriodInSameDates(Date startDate, Date endDate) {
-    return periodRepository.findAllByStartDateBetween(startDate, endDate).size() > 0;
+    List<Period> periods = periodRepository.findAllByStartDateBetween(startDate, endDate);
+    return periods.size() > 0;
   }
 }
