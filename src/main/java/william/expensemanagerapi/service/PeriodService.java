@@ -103,7 +103,7 @@ public class PeriodService implements
     Double totalBugetUsedInPeriod = expenseRepository.totalBugetUsed(period.getId());
 
     if (totalBugetUsedInPeriod > params.getBudget()) {
-      throw new IllegalArgumentException("You cannot set a budget lower than the total used budget for the period " + period.getName());
+      throw new IllegalArgumentException("You cannot set a budget lower than the total used budget for the period: " + period.getName());
     }
 
     period.setName(params.getName());
