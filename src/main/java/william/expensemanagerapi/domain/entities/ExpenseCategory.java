@@ -2,6 +2,8 @@ package william.expensemanagerapi.domain.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +21,7 @@ import william.expensemanagerapi.domain.model.AddExpenseCategoryModel;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "expense_category")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ExpenseCategory implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

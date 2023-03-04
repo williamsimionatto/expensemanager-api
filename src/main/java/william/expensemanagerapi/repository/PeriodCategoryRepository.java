@@ -22,5 +22,5 @@ public interface PeriodCategoryRepository extends JpaRepository<PeriodCategory, 
     value = "SELECT SUM(budget) FROM period_category WHERE period_id = :periodId",
     nativeQuery = true
   )
-  public Double gettotalReservedBudget(@Param("periodId") Long periodId);
+  public Double getTotalReservedBudget(@Param("periodId") Long periodId);
 }

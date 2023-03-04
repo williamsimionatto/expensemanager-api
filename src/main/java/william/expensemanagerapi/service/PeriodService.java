@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.entities.Period;
@@ -14,6 +15,7 @@ import william.expensemanagerapi.domain.model.AddPeriodModel;
 import william.expensemanagerapi.domain.model.PeriodReport;
 import william.expensemanagerapi.domain.usecases.period.AddPeriod;
 import william.expensemanagerapi.domain.usecases.period.HasPeriodInSameDates;
+import william.expensemanagerapi.repository.ExpenseRepository;
 import william.expensemanagerapi.repository.PeriodCategoryRepository;
 import william.expensemanagerapi.repository.PeriodRepository;
 
@@ -29,6 +31,9 @@ public class PeriodService implements
 
   @Autowired 
   private ExpenseCategoryService expenseCategoryService;
+
+  @Autowired
+  private ExpenseRepository expenseRepository;
 
   @Override
   public Period add(AddPeriodModel params) {
@@ -50,7 +55,7 @@ public class PeriodService implements
 
     for (AddPeriodCategoryModel category : params.getCategories()) {
       ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
-      PeriodCategory periodCategory = new PeriodCategory(period.getId(), expenseCategory, category.getBudget());
+      PeriodCategory periodCategory = new PeriodCategory(period, expenseCategory, category.getBudget());
       periodCategoryRepository.save(periodCategory);
     }
 
@@ -61,22 +66,38 @@ public class PeriodService implements
     List<Period> periods = periodRepository.findAll();
 
     List<PeriodReport> periodReports = periods.stream().map(period -> {
-      Double totalReservedBudget = periodCategoryRepository.gettotalReservedBudget(period.getId());
+      Double totalReservedBudget = periodCategoryRepository.getTotalReservedBudget(period.getId());
       Double remainingBudget = period.getBudget() - totalReservedBudget;
-      return new PeriodReport(period.getId(), period.getName(), period.getStartDate(), period.getEndDate(), period.getBudget(), totalReservedBudget, remainingBudget);
+      Double totalUsedBudget = expenseRepository.totalBugetUsed(period.getId());
+      Double remainingUsedBudget = totalReservedBudget - totalUsedBudget;
+
+      return new PeriodReport(
+        period.getId(),
+        period.getName(),
+        period.getStartDate(),
+        period.getEndDate(),
+        period.getBudget(),
+        totalReservedBudget,
+        remainingBudget,
+        totalUsedBudget,
+        remainingUsedBudget
+      );
     }).toList();
 
     return periodReports;
   }
 
   public Period get(Long id) {
-    return periodRepository.findById(id).orElse(null);
+    Period period = periodRepository.findById(id).orElse(null);
+    return period;
   }
 
+  @Transactional
   public Period update(Long id, AddPeriodModel params) {
     Period period = this.get(id);
-    if (period == null) {
-      throw new IllegalArgumentException("Period not found");
+
+    if (!this.hasBudgetLimit(params.getBudget(), params.getCategories())) {
+      throw new IllegalArgumentException("Budget limit exceeded");
     }
 
     period.setName(params.getName());
@@ -85,32 +106,36 @@ public class PeriodService implements
     period.setBudget(params.getBudget());
     period = periodRepository.save(period);
 
-    if (!this.hasBudgetLimit(period.getBudget(), params.getCategories())) {
-      throw new IllegalArgumentException("Budget limit exceeded");
-    }
-
     for (AddPeriodCategoryModel category : params.getCategories()) {
       PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(period.getId(), category.getCategoryId());
       if (periodCategory == null) {
         ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
-        periodCategory = new PeriodCategory(period.getId(), expenseCategory, category.getBudget());
+        periodCategory = new PeriodCategory(period, expenseCategory, category.getBudget());
         periodCategoryRepository.save(periodCategory);
       } else {
+        Double totalBugetUsedInCategory = expenseRepository.totalBugetUsed(period.getId(), periodCategory.getCategory().getId());
+
+        if (totalBugetUsedInCategory > category.getBudget()) {
+          throw new IllegalArgumentException("You cannot set a budget lower than the total used budget for the category: " + periodCategory.getCategory().getName());
+        }
+
         periodCategory.setBudget(category.getBudget());
         periodCategoryRepository.save(periodCategory);
       }
     }
 
-    return this.get(period.getId());
+    return period;
   }
 
+  @Transactional
   public void deleteCategory(Long periodId, Long categoryId) {
     PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(periodId, categoryId);
     if (periodCategory == null) {
       throw new IllegalArgumentException("Period category not found");
     }
 
-    periodCategoryRepository.delete(periodCategory);
+    expenseRepository.deleteByPeriodIdAndExpenseCategoryId(periodId, categoryId);
+    periodCategoryRepository.deleteById(periodCategory.getId());
   }
 
   @Override

@@ -42,11 +42,12 @@ public class PeriodController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Period> update(
+  public ResponseEntity<Object> update(
     @PathVariable Long id,
     @Valid @RequestBody AddPeriodModel params
   ) {
-    return ResponseEntity.ok(periodService.update(id, params));
+    Period period = periodService.update(id, params);
+    return ResponseEntity.ok(period);
   }
 
   @DeleteMapping("/{id}/category/{categoryId}")
