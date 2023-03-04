@@ -88,9 +88,11 @@ public class PeriodService implements
   }
 
   public Period get(Long id) {
-    return periodRepository.findById(id).orElse(null);
+    Period period = periodRepository.findById(id).orElse(null);
+    return period;
   }
 
+  @Transactional
   public Period update(Long id, AddPeriodModel params) {
     Period period = this.get(id);
 
@@ -111,6 +113,12 @@ public class PeriodService implements
         periodCategory = new PeriodCategory(period, expenseCategory, category.getBudget());
         periodCategoryRepository.save(periodCategory);
       } else {
+        Double totalBugetUsedInCategory = expenseRepository.totalBugetUsed(period.getId(), periodCategory.getCategory().getId());
+
+        if (totalBugetUsedInCategory > category.getBudget()) {
+          throw new IllegalArgumentException("You cannot set a budget lower than the total used budget for the category: " + periodCategory.getCategory().getName());
+        }
+
         periodCategory.setBudget(category.getBudget());
         periodCategoryRepository.save(periodCategory);
       }
