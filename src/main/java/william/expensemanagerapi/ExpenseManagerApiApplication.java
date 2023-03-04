@@ -1,9 +1,12 @@
 package william.expensemanagerapi;
 
+import java.util.TimeZone;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
 @RestController
@@ -13,8 +16,8 @@ public class ExpenseManagerApiApplication {
 		System.out.println("Application Running");
 	}
 
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello World";
-	}
+	@PostConstruct
+  public void init(){
+    TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
+  }
 }
