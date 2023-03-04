@@ -91,6 +91,15 @@ public class PeriodService implements
     return this.get(period.getId());
   }
 
+  public void deleteCategory(Long periodId, Long categoryId) {
+    PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(periodId, categoryId);
+    if (periodCategory == null) {
+      throw new IllegalArgumentException("Period category not found");
+    }
+
+    periodCategoryRepository.delete(periodCategory);
+  }
+
   @Override
   public boolean hasPeriodInSameDates(Date startDate, Date endDate) {
     List<Period> periods = periodRepository.findAllByStartDateBetween(startDate, endDate);
