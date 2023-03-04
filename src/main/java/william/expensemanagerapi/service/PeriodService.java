@@ -65,7 +65,7 @@ public class PeriodService implements
     List<Period> periods = periodRepository.findAll();
 
     List<PeriodReport> periodReports = periods.stream().map(period -> {
-      Double totalReservedBudget = periodCategoryRepository.gettotalReservedBudget(period.getId());
+      Double totalReservedBudget = periodCategoryRepository.getTotalReservedBudget(period.getId());
       Double remainingBudget = period.getBudget() - totalReservedBudget;
       Double totalUsedBudget = expenseRepository.totalBugetUsed(period.getId());
       Double remainingUsedBudget = totalReservedBudget - totalUsedBudget;
@@ -92,8 +92,9 @@ public class PeriodService implements
 
   public Period update(Long id, AddPeriodModel params) {
     Period period = this.get(id);
-    if (period == null) {
-      throw new IllegalArgumentException("Period not found");
+
+    if (!this.hasBudgetLimit(params.getBudget(), params.getCategories())) {
+      throw new IllegalArgumentException("Budget limit exceeded");
     }
 
     period.setName(params.getName());
@@ -101,10 +102,6 @@ public class PeriodService implements
     period.setEndDate(params.getEndDate());
     period.setBudget(params.getBudget());
     period = periodRepository.save(period);
-
-    if (!this.hasBudgetLimit(period.getBudget(), params.getCategories())) {
-      throw new IllegalArgumentException("Budget limit exceeded");
-    }
 
     for (AddPeriodCategoryModel category : params.getCategories()) {
       PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(period.getId(), category.getCategoryId());
@@ -118,7 +115,7 @@ public class PeriodService implements
       }
     }
 
-    return this.get(period.getId());
+    return period;
   }
 
   public void deleteCategory(Long periodId, Long categoryId) {
@@ -127,7 +124,7 @@ public class PeriodService implements
       throw new IllegalArgumentException("Period category not found");
     }
 
-    periodCategoryRepository.delete(periodCategory);
+    periodCategoryRepository.deleteById(periodCategory.getId());
   }
 
   @Override

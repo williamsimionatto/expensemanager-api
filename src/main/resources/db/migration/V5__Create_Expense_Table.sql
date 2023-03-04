@@ -7,5 +7,5 @@ CREATE TABLE IF NOT EXISTS `expense` (
   `date` DATE NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`period_id`) REFERENCES `period` (`id`),
-  FOREIGN KEY (`category_id`) REFERENCES `expense_category` (`id`)
+  FOREIGN KEY (`category_id`) REFERENCES `expense_category` (`id`) ON DELETE CASCADE
 );

@@ -10,13 +10,13 @@ import william.expensemanagerapi.domain.entities.Expense;
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
   @Query(
-    value = "SELECT SUM(amount) FROM expense WHERE period_id = :periodId",
+    value = "SELECT COALESCE(SUM(amount), 0) FROM expense WHERE period_id = :periodId",
     nativeQuery = true
   )
   public Double totalBugetUsed(@Param("periodId") Long periodId);
 
   @Query(
-    value = "SELECT SUM(amount) FROM expense WHERE period_id = :periodId AND category_id = :categoryId",
+    value = "SELECT COALESCE(SUM(amount), 0) FROM expense WHERE period_id = :periodId AND category_id = :categoryId",
     nativeQuery = true
   )
   public Double totalBugetUsed(
