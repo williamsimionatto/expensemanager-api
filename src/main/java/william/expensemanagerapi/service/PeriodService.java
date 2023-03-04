@@ -56,6 +56,34 @@ public class PeriodService implements
     return periodRepository.findById(id).orElse(null);
   }
 
+  public Period update(Long id, AddPeriodModel params) {
+    Period period = this.get(id);
+    if (period == null) {
+      throw new IllegalArgumentException("Period not found");
+    }
+
+    period.setName(params.getName());
+    period.setStartDate(params.getStartDate());
+    period.setEndDate(params.getEndDate());
+    period.setBudget(params.getBudget());
+    period = periodRepository.save(period);
+
+    for (AddPeriodCategoryModel category : params.getCategories()) {
+      // If the category is not in the period, add it, otherwise update the budget
+      PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(period.getId(), category.getCategoryId());
+      if (periodCategory == null) {
+        ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
+        periodCategory = new PeriodCategory(period.getId(), expenseCategory, category.getBudget());
+        periodCategoryRepository.save(periodCategory);
+      } else {
+        periodCategory.setBudget(category.getBudget());
+        periodCategoryRepository.save(periodCategory);
+      }
+    }
+
+    return this.get(period.getId());
+  }
+
   @Override
   public boolean hasPeriodInSameDates(Date startDate, Date endDate) {
     List<Period> periods = periodRepository.findAllByStartDateBetween(startDate, endDate);
