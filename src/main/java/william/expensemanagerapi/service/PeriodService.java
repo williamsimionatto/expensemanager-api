@@ -67,7 +67,7 @@ public class PeriodService implements
     List<PeriodReport> periodReports = periods.stream().map(period -> {
       Double totalReservedBudget = periodCategoryRepository.gettotalReservedBudget(period.getId());
       Double remainingBudget = period.getBudget() - totalReservedBudget;
-      Double totalUsedBudget = expenseRepository.getTotalUsedBudget(period.getId());
+      Double totalUsedBudget = expenseRepository.totalBugetUsed(period.getId());
       Double remainingUsedBudget = totalReservedBudget - totalUsedBudget;
 
       return new PeriodReport(

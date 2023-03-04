@@ -13,5 +13,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     value = "SELECT SUM(amount) FROM expense WHERE period_id = :periodId",
     nativeQuery = true
   )
-  public Double getTotalUsedBudget(@Param("periodId") Long periodId);
+  public Double totalBugetUsed(@Param("periodId") Long periodId);
+
+  @Query(
+    value = "SELECT SUM(amount) FROM expense WHERE period_id = :periodId AND category_id = :categoryId",
+    nativeQuery = true
+  )
+  public Double totalBugetUsed(
+    @Param("periodId") Long periodId,
+    @Param("categoryId") Long categoryId
+  );
 }
