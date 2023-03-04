@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import william.expensemanagerapi.domain.entities.Period;
 import william.expensemanagerapi.domain.model.AddPeriodModel;
+import william.expensemanagerapi.domain.model.PeriodReport;
 import william.expensemanagerapi.service.PeriodService;
 
 @RestController
@@ -28,6 +29,11 @@ public class PeriodController {
     @Valid @RequestBody AddPeriodModel params
   ) {
     return ResponseEntity.ok(periodService.add(params));
+  }
+
+  @GetMapping
+  public ResponseEntity<Iterable<PeriodReport>> getAll() {
+    return ResponseEntity.ok(periodService.getAll());
   }
 
   @GetMapping("/{id}")

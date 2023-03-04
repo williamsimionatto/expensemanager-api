@@ -11,6 +11,7 @@ import william.expensemanagerapi.domain.entities.Period;
 import william.expensemanagerapi.domain.entities.PeriodCategory;
 import william.expensemanagerapi.domain.model.AddPeriodCategoryModel;
 import william.expensemanagerapi.domain.model.AddPeriodModel;
+import william.expensemanagerapi.domain.model.PeriodReport;
 import william.expensemanagerapi.domain.usecases.period.AddPeriod;
 import william.expensemanagerapi.domain.usecases.period.HasPeriodInSameDates;
 import william.expensemanagerapi.repository.PeriodCategoryRepository;
@@ -54,6 +55,18 @@ public class PeriodService implements
     }
 
     return this.get(period.getId());
+  }
+
+  public List<PeriodReport> getAll() {
+    List<Period> periods = periodRepository.findAll();
+
+    List<PeriodReport> periodReports = periods.stream().map(period -> {
+      Double totalReservedBudget = periodCategoryRepository.gettotalReservedBudget(period.getId());
+      Double remainingBudget = period.getBudget() - totalReservedBudget;
+      return new PeriodReport(period.getId(), period.getName(), period.getStartDate(), period.getEndDate(), period.getBudget(), totalReservedBudget, remainingBudget);
+    }).toList();
+
+    return periodReports;
   }
 
   public Period get(Long id) {
