@@ -21,11 +21,11 @@ public class PeriodService implements
 
   @Override
   public Period add(AddPeriodModel params) {
-    boolean hasPeriodInSameDates = this.hasPeriodInSameDates(params.getStartDate(), params.getEndDate());
     if (params.getStartDate().after(params.getEndDate())) {
       throw new IllegalArgumentException("Start date cannot be after end date");
     }
 
+    boolean hasPeriodInSameDates = this.hasPeriodInSameDates(params.getStartDate(), params.getEndDate());
     if (hasPeriodInSameDates) {
       throw new IllegalArgumentException("There is already a period in the same dates, please choose another dates");
     }
