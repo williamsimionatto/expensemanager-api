@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import william.expensemanagerapi.domain.model.AddExpenseModel;
 
 @Getter
 @Setter
@@ -37,7 +38,7 @@ public class Expense {
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "period_id", referencedColumnName = "id")
   @JsonBackReference
-  private PeriodCategory periodCategory;
+  private Period period;
 
   @NonNull
   @Column(name = "description")
@@ -50,4 +51,16 @@ public class Expense {
   @NonNull
   @Column(name = "amount")
   private Double amount;
+
+  public Expense(
+    AddExpenseModel params,
+    Period period,
+    ExpenseCategory expenseCategory
+  ) {
+    this.description = params.getDescription();
+    this.date = params.getDate();
+    this.amount = params.getAmount();
+    this.period = period;
+    this.expenseCategory = expenseCategory;
+  }
 }
