@@ -9,13 +9,15 @@ import william.expensemanagerapi.domain.entities.Period;
 import william.expensemanagerapi.domain.entities.PeriodCategory;
 import william.expensemanagerapi.domain.model.AddExpenseModel;
 import william.expensemanagerapi.domain.usecases.expense.AddExpense;
+import william.expensemanagerapi.domain.usecases.expense.DeleteExpense;
 import william.expensemanagerapi.domain.usecases.expense.TotalBugetUsed;
 import william.expensemanagerapi.repository.ExpenseRepository;
 
 @Service
 public class ExpenseService implements 
   AddExpense,
-  TotalBugetUsed {
+  TotalBugetUsed,
+  DeleteExpense {
   @Autowired
   private ExpenseRepository expenseRepository;
 
@@ -51,5 +53,10 @@ public class ExpenseService implements
   @Override
   public Double totalBugetUsed(Long periodId) {
     return expenseRepository.totalBugetUsed(periodId);
+  }
+
+  @Override
+  public void delete(Long id) {
+    expenseRepository.deleteById(id);
   }
 }
