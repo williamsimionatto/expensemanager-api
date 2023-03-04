@@ -3,6 +3,8 @@ package william.expensemanagerapi.domain.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,6 +22,7 @@ import william.expensemanagerapi.domain.model.AddPeriodModel;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "period")
+@EnableJpaRepositories
 public class Period implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

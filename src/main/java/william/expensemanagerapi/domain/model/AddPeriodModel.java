@@ -21,11 +21,11 @@ public class AddPeriodModel {
   private String name;
 
   @NotNull(message = "Start date is required")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
   private Date startDate;
 
   @NotNull(message = "End date is required")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
   private Date endDate;
 
   @Min(value = 1, message = "Budget must be greater than or equal to 1")
