@@ -55,5 +55,23 @@ Para o cadastro considerar:
 * Data Final não deve ser menor que Data Inicial
 * Não devem existir dois períodos para o mesmo intervalo de data
 
+## Build Setup
+To run this project is necessary to have installed the following tools:
+- Gradle
+- Java 17
+- Docker
+
+Before that, run the following command to create the docker containers:
+``` bash
+  docker-compose up -d
+```
+
+To run the application, run the following command:
+``` bash
+  gradle bootRun
+```
+
+The application will be available on http://localhost:8080 using mysql database.
+
 # 
 > Trabalho final da disciplina Desenvolvimento Web e Mobile - UPF 2023/1
