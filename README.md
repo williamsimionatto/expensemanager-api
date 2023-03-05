@@ -61,6 +61,11 @@ To run this project is necessary to have installed the following tools:
 - Java 17
 - Docker
 
+Run the following command to download the dependencies:
+``` bash
+  gradle build --refresh-dependencies
+```
+
 Before that, run the following command to create the docker containers:
 ``` bash
   docker-compose up -d
