@@ -119,6 +119,11 @@ public class PeriodService implements
     return period;
   }
 
+  public List<PeriodCategory> getPeriodCategories(Long periodId) {
+    List<PeriodCategory> periodCategories = periodCategoryRepository.findByPeriodId(periodId);
+    return periodCategories;
+  }
+
   @Transactional
   public Period update(Long id, AddPeriodModel params) {
     Period period = this.get(id);

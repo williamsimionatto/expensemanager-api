@@ -1,5 +1,7 @@
 package william.expensemanagerapi.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import william.expensemanagerapi.domain.entities.Period;
+import william.expensemanagerapi.domain.entities.PeriodCategory;
 import william.expensemanagerapi.domain.model.AddPeriodModel;
 import william.expensemanagerapi.domain.model.PeriodReport;
 import william.expensemanagerapi.service.PeriodService;
@@ -49,6 +52,11 @@ public class PeriodController {
   @GetMapping("/{id}")
   public ResponseEntity<Period> get(@PathVariable Long id) {
     return ResponseEntity.ok(periodService.get(id));
+  }
+
+  @GetMapping("/{id}/category")
+  public ResponseEntity<List<PeriodCategory>> getCategories(@PathVariable Long id) {
+    return ResponseEntity.ok(periodService.getPeriodCategories(id));
   }
 
   @PutMapping("/{id}")

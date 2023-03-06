@@ -1,5 +1,7 @@
 package william.expensemanagerapi.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +25,14 @@ public interface PeriodCategoryRepository extends JpaRepository<PeriodCategory, 
     nativeQuery = true
   )
   public Double getTotalReservedBudget(@Param("periodId") Long periodId);
+
+  @Query(
+    value = 
+      "SELECT period_category.* " + 
+      "FROM expense_category " + 
+      "JOIN period_category ON expense_category.id = period_category.expense_category_id " + 
+      "WHERE period_category.period_id = :periodId",
+    nativeQuery = true
+  )
+  public List<PeriodCategory> findByPeriodId(@Param("periodId") Long periodId);
 }
