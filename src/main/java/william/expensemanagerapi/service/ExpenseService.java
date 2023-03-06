@@ -1,6 +1,5 @@
 package william.expensemanagerapi.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +11,7 @@ import william.expensemanagerapi.domain.usecases.expense.AddExpense;
 import william.expensemanagerapi.domain.usecases.expense.DeleteExpense;
 import william.expensemanagerapi.domain.usecases.expense.TotalBugetUsed;
 import william.expensemanagerapi.repository.ExpenseRepository;
+import william.expensemanagerapi.validation.DateValidation;
 
 @Service
 public class ExpenseService implements 
@@ -31,6 +31,15 @@ public class ExpenseService implements
   public Expense add(AddExpenseModel params) {
     PeriodCategory periodCategory = periodCategoryService.get(params.getPeriodId(), params.getCategoryId());
     Period period = periodService.get(params.getPeriodId());
+
+    if (!DateValidation.isDateInPeriod(params.getDate(), period.getStartDate(), period.getEndDate())) {
+      String startDate = DateValidation.formatDate(period.getStartDate(), "yyyy-MM-dd");
+      String endDate = DateValidation.formatDate(period.getEndDate(), "yyyy-MM-dd");
+
+      throw new IllegalArgumentException(
+        "Date is not in the period: [" + startDate + " to " + endDate + "]"
+      );
+    }
 
     Expense expense = new Expense(params, period, periodCategory.getCategory());
     Double totalBugetUsedInPeriod = this.totalBugetUsed(period.getId());

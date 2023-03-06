@@ -18,6 +18,6 @@ public class ExpenseManagerApiApplication {
 
 	@PostConstruct
   public void init(){
-    TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
   }
 }
