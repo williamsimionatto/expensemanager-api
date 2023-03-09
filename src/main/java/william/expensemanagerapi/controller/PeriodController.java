@@ -39,12 +39,8 @@ public class PeriodController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<PeriodReport>> getAll(
-    @RequestParam(defaultValue = "0") int page, 
-    @RequestParam(defaultValue = "10") int size
-  ) {
-    Pageable pageable = PageRequest.of(page, size);
-    Page<PeriodReport> periodReports = periodService.getAll(pageable);
+  public ResponseEntity<List<PeriodReport>> getAll() {
+    List<PeriodReport> periodReports = periodService.getAll();
 
     return ResponseEntity.ok(periodReports);
   }
