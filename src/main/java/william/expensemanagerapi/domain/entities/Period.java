@@ -50,7 +50,7 @@ public class Period implements Serializable {
   private Double budget;
 
   @OneToMany(mappedBy = "period", cascade = CascadeType.ALL)
-  private List<PeriodCategory> periodCategories = new ArrayList<PeriodCategory>();
+  private List<PeriodCategory> categories = new ArrayList<PeriodCategory>();
 
   public Period(AddPeriodModel params) {
     this.name = params.getName();
