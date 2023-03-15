@@ -56,7 +56,7 @@ public class PeriodService implements
     }
 
     for (AddPeriodCategoryModel category : params.getCategories()) {
-      ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
+      ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategory().getId());
       PeriodCategory periodCategory = new PeriodCategory(period, expenseCategory, category.getBudget());
       periodCategoryRepository.save(periodCategory);
     }
@@ -145,9 +145,9 @@ public class PeriodService implements
     period = periodRepository.save(period);
 
     for (AddPeriodCategoryModel category : params.getCategories()) {
-      PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(period.getId(), category.getCategoryId());
+      PeriodCategory periodCategory = periodCategoryRepository.findByPeriodIdAndCategoryId(period.getId(), category.getCategory().getId());
       if (periodCategory == null) {
-        ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategoryId());
+        ExpenseCategory expenseCategory = expenseCategoryService.get(category.getCategory().getId());
         periodCategory = new PeriodCategory(period, expenseCategory, category.getBudget());
         periodCategoryRepository.save(periodCategory);
       } else {
