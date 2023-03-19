@@ -3,7 +3,7 @@ cors:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/expensemanager
+    url: jdbc:postgresql://expensemanager_db:5432/expensemanager
     username: expensemanager
     password: expensemanager
   jpa:

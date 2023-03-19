@@ -13,6 +13,18 @@ services:
       - 5432:5432
     volumes:
       - db_data:/var/lib/postgresql/data
+  api:
+    container_name: expensemanager_api
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/expensemanager
+      - SPRING_DATASOURCE_USERNAME=expensemanager
+      - SPRING_DATASOURCE_PASSWORD=expensemanager
+    depends_on:
+      - db
 
 volumes:
   db_data:

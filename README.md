@@ -66,17 +66,12 @@ Run the following command to download the dependencies:
   gradle build --refresh-dependencies
 ```
 
-Before that, run the following command to create the docker containers:
+Before that, run the following command to create the docker containers and start the application:
 ``` bash
   docker-compose up -d
 ```
 
-To run the application, run the following command:
-``` bash
-  gradle bootRun
-```
-
-The application will be available on http://localhost:8080 using mysql database.
+The application will be available on http://localhost:8080 using PostgreSQL database.
 
 # 
 > Trabalho final da disciplina Desenvolvimento Web e Mobile - UPF 2023/1
