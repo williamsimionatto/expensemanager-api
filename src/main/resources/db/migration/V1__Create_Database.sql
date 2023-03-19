@@ -1,1 +1,1 @@
-CREATE DATABASE IF NOT EXISTS `expensemanager`;
+CREATE SCHEMA IF NOT EXISTS expensemanager;

@@ -2,8 +2,8 @@ cors:
   originPatterns: http://localhost:3000,http:localhost:8080
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/expensemanager?serverTimezone=America/Sao_Paulo
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://expensemanager_db:5432/expensemanager
     username: expensemanager
     password: expensemanager
   jpa:
