@@ -1,9 +1,9 @@
 
-CREATE TABLE IF NOT EXISTS `period` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
-  `start_date` DATE NOT NULL,
-  `end_date` DATE NOT NULL,
-  `budget` DECIMAL(10,2) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS period (
+  id SERIAL NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  budget DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (id)
+);

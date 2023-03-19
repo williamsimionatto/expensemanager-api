@@ -1,21 +1,18 @@
-version: '3'
+version: '3.9'
 
 services:
   db:
-    image: mysql
-    container_name: extensemanager-db
+    image: postgres:latest
+    container_name: expensemanager_db
     restart: always
     environment:
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: root-passowrd
-      MYSQL_DATABASE: expensemanager
-      MYSQL_USER: expensemanager
-      MYSQL_PASSWORD: expensemanager
-      TZ: America/Sao_Paulo
+      POSTGRES_USER: expensemanager
+      POSTGRES_PASSWORD: expensemanager
+      POSTGRES_DB: expensemanager
     ports:
-      - "3306:3306"
+      - 5432:5432
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
 
 volumes:
   db_data:
