@@ -1,5 +1,7 @@
 package william.expensemanagerapi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,10 @@ public class ExpenseService implements
     }
 
     return expenseRepository.save(expense);
+  }
+
+  public List<Expense> getAll() {
+    return expenseRepository.findAllByOrderByDateDesc();
   }
 
   @Override

@@ -3,15 +3,17 @@ cors:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://expensemanager_db:5432/expensemanager
+    url: jdbc:postgresql://localhost:5432/expensemanager
     username: expensemanager
     password: expensemanager
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
       ddl-auto: none
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         type:
           trace-level: TRACE
     show-sql: true

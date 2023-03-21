@@ -1,5 +1,7 @@
 package william.expensemanagerapi.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +27,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
   );
 
   public void deleteByPeriodIdAndExpenseCategoryId(Long periodId, Long categoryId);
+
+  public List<Expense> findAllByOrderByDateDesc();
 }
