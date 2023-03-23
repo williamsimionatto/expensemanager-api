@@ -68,7 +68,7 @@ Run the following command to download the dependencies:
 
 Before that, run the following command to create the docker containers and start the application:
 ``` bash
-  docker-compose up -d
+  docker-compose up --build -d
 ```
 
 The application will be available on http://localhost:8080 using PostgreSQL database.
