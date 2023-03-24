@@ -26,7 +26,11 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     @Param("categoryId") Long categoryId
   );
 
-  public void deleteByPeriodIdAndExpenseCategoryId(Long periodId, Long categoryId);
+  @Query(
+    value = "SELECT * FROM expense WHERE period_id = :periodId AND category_id = :categoryId",
+    nativeQuery = true
+  )
+  public List<Expense> findAllByPeriodIdAndCategoryId(Long periodId, Long categoryId);
 
   public List<Expense> findAllByOrderByDateDesc();
 }

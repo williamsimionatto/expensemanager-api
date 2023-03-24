@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import william.expensemanagerapi.domain.entities.Expense;
 import william.expensemanagerapi.domain.entities.ExpenseCategory;
 import william.expensemanagerapi.domain.entities.Period;
 import william.expensemanagerapi.domain.entities.PeriodCategory;
@@ -172,7 +173,13 @@ public class PeriodService implements
       throw new IllegalArgumentException("Period category not found");
     }
 
-    expenseRepository.deleteByPeriodIdAndExpenseCategoryId(periodId, categoryId);
+    List<Expense> expenses = expenseRepository.findAllByPeriodIdAndCategoryId(periodId, categoryId);
+    // for (Expense expense : expenses) {
+    //   expenseRepository.delete(expense);
+    // }
+
+    expenseRepository.deleteAll(expenses);
+    expenseRepository.flush();
     periodCategoryRepository.deleteById(periodCategory.getId());
   }
 
