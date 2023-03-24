@@ -174,10 +174,6 @@ public class PeriodService implements
     }
 
     List<Expense> expenses = expenseRepository.findAllByPeriodIdAndCategoryId(periodId, categoryId);
-    // for (Expense expense : expenses) {
-    //   expenseRepository.delete(expense);
-    // }
-
     expenseRepository.deleteAll(expenses);
     expenseRepository.flush();
     periodCategoryRepository.deleteById(periodCategory.getId());
