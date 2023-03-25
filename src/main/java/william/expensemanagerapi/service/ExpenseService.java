@@ -34,6 +34,10 @@ public class ExpenseService implements
     PeriodCategory periodCategory = periodCategoryService.get(params.getPeriodId(), params.getCategoryId());
     Period period = periodService.get(params.getPeriodId());
 
+    if (periodCategory == null) {
+      throw new IllegalArgumentException("Period or Category are invalid!");
+    }
+
     if (!DateValidation.isDateInPeriod(params.getDate(), period.getStartDate(), period.getEndDate())) {
       String startDate = DateValidation.formatDate(period.getStartDate(), "yyyy-MM-dd");
       String endDate = DateValidation.formatDate(period.getEndDate(), "yyyy-MM-dd");
