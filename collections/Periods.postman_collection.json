@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Abril/2023\",\n    \"startDate\": \"2023-04-01\",\n    \"endDate\": \"2023-04-30\",\n    \"budget\": 3500.00,\n    \"categories\": [\n        {\n            \"categoryId\": 1,\n            \"budget\": 1000.00\n        },\n        {\n            \"categoryId\": 2,\n            \"budget\": 550\n        }\n    ]\n}",
+					"raw": "{\n    \"name\": \"Fevereiro/2023\",\n    \"startDate\": \"2023-02-01\",\n    \"endDate\": \"2023-02-28\",\n    \"budget\": 3500.00,\n    \"categories\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -96,7 +96,46 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "7"
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get PeriodCategories",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/period/:id/category",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"period",
+						":id",
+						"category"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
 						}
 					]
 				}
@@ -110,7 +149,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Abril/2023\",\n    \"startDate\": \"2023-04-01\",\n    \"endDate\": \"2023-04-30\",\n    \"budget\": 3500.00,\n    \"categories\": [\n        {\n            \"categoryId\": 1,\n            \"budget\": 1400.00\n        },\n        {\n            \"categoryId\": 2,\n            \"budget\": 450\n        }\n    ]\n}",
+					"raw": "{\n    \"name\": \"Março/2023\",\n    \"startDate\": \"2023-03-01\",\n    \"endDate\": \"2023-03-32\",\n    \"budget\": 3500.00,\n    \"categories\": [\n        {\n            \"categoryId\": 64,\n            \"budget\": 1400.00\n        },\n        {\n            \"categoryId\": 65,\n            \"budget\": 1500\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -131,7 +170,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "7"
+							"value": "8"
 						}
 					]
 				}

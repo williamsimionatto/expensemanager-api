@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Transporte\",\n    \"description\": \"Inclui com combustível, manutenção de veículos, ônibus.\"\n}",
+					"raw": "{\n    \"name\": \"Transporte\",\n    \"description\": \"inclui gastos com combustível, transporte público, manutenção do veículo, seguros e impostos.\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,7 +52,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/expense-category?page=0&size=30",
+					"raw": "http://localhost:8080/expense-category",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -60,16 +60,6 @@
 					"port": "8080",
 					"path": [
 						"expense-category"
-					],
-					"query": [
-						{
-							"key": "page",
-							"value": "0"
-						},
-						{
-							"key": "size",
-							"value": "30"
-						}
 					]
 				}
 			},

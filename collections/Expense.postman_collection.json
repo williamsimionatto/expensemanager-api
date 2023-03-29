@@ -13,7 +13,38 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"categoryId\": 2,\n    \"date\": \"2023-03-04\",\n    \"amount\": 450,\n    \"description\": \"Mercado\",\n    \"periodId\": 7\n}",
+					"raw": "{\n    \"categoryId\": 2,\n    \"date\": \"2023-03-05\",\n    \"amount\": 220,\n    \"description\": \"Água\",\n    \"periodId\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/expense",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"expense"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"categoryId\": 64,\n    \"date\": \"2023-03-10\",\n    \"amount\": 220.00,\n    \"description\": \"Água\",\n    \"periodId\": 8\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -62,7 +93,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "2"
+							"value": "8"
 						}
 					]
 				}
