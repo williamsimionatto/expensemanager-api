@@ -19,6 +19,20 @@ import william.expensemanagerapi.exceptions.error.FieldError;
 @RestController
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler {
+  @ExceptionHandler(IllegalArgumentException.class)
+  public final ResponseEntity<ExceptionReponse> handleIllegalArgumentException(
+    IllegalArgumentException ex,
+    WebRequest request
+  ) {
+    ExceptionReponse exceptionResponse = new ExceptionReponse(
+      new Date(),
+      ex.getMessage(),
+      ex.getLocalizedMessage()
+    );
+
+    return new ResponseEntity<>(exceptionResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+  }
+
   @ExceptionHandler(Exception.class)
   public final ResponseEntity<ExceptionReponse> handleAllException(
     Exception ex,
